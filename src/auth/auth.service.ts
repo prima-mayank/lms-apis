@@ -47,6 +47,14 @@ export class AuthService {
             access_token
         };
     }
+
+    async getUserById(userId:string) {
+      const user=await this.userModel.findById(userId).select('-password');
+      if(!user){
+        throw new ConflictException('Unauthorized access');
+      } 
+      return user;
+    }
    
 }
 
