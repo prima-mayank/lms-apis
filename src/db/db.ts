@@ -1,11 +1,17 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
-MongooseModule.forRoot(
-  process.env.MONGO_URI as string,
-  {
-    autoIndex: true,
-  },
-);
-
+@Module({
+  imports: [
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGO_URI'),
+        autoIndex: true,
+      }),
+      inject: [ConfigService],
+    }),
+  ],
+})
 export class DatabaseModule {}
