@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/CreateCourseDto';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -28,6 +28,10 @@ export class CoursesController {
         return this.coursesService.getCourseById(courseId);
     }
     
+    @Delete(':id')
+    async deleteCourse(@Param('id') courseId: string) {
+        return this.coursesService.deleteCourse(courseId);
+    }
 
 
 }

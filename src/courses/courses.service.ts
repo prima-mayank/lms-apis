@@ -3,6 +3,7 @@ import { CreateCourseDto } from './dto/CreateCourseDto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Course } from './course.schema';
 import { Model } from 'mongoose';
+import { find } from 'rxjs';
 
 @Injectable()
 export class CoursesService {
@@ -26,5 +27,14 @@ export class CoursesService {
             throw new NotFoundException('Course with this id is not found');
         }
         return course;
+    }
+
+    async deleteCourse(courseId: string) {
+        const findCourse = await this.courseModel.findById(courseId);       
+        if (!findCourse) {
+            throw new NotFoundException('Course with this id is not found');
+        }   
+        await this.courseModel.findByIdAndDelete(courseId);
+        return { deletedCourse: findCourse };
     }
 }
