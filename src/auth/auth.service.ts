@@ -21,7 +21,7 @@ export class AuthService {
             const createdUser=await this.UserService.createUser(RegisterUserDto);
 
             
-    const payload =  { sub: createdUser._id, username: createdUser.fname+' '+createdUser.lname };
+    const payload =  { sub: createdUser._id, username: createdUser.fname+' '+createdUser.lname, role: createdUser.role };
 
     const access_token= await this.jwtService.signAsync(payload);
     // console.log(access_token)
