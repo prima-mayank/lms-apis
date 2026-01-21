@@ -37,4 +37,13 @@ export class CoursesService {
         await this.courseModel.findByIdAndDelete(courseId);
         return { deletedCourse: findCourse };
     }
+
+    async updateCourse(courseId: string, updateCourseDto: CreateCourseDto) {
+        const findCourse = await this.courseModel.findById(courseId);   
+        if (!findCourse) {
+            throw new NotFoundException('Course with this id is not found');
+        }
+        const updatedCourse = await this.courseModel.findByIdAndUpdate(courseId, updateCourseDto, { new: true });
+        return {updatedCourse };
+    }
 }
